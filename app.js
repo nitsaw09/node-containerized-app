@@ -1,16 +1,19 @@
 const express = require("express");
-const Mongo = require("mongoose");
+const mongoose = require("mongoose");
 
 const app = express();
 
+const productRoutes = require("./api/routes/products");
+
+app.use("/products", productRoutes);
+
 // Routes
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Rest API");
 });
 
-Mongo.connect(process.env.DB_CONNECT, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
-  console.log(`DB connected`);
+mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }, () => {
+  console.log("DB connected");
 });
 
-// start listening the server at port 3000
-app.listen(3000);
+module.exports = app;
