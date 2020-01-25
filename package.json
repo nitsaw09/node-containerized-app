@@ -1,7 +1,7 @@
 {
-  "name": "rest-api-tutorial",
+  "name": "mean-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "WEB MEAN APP",
   "main": "index.js",
   "scripts": {
     "start": "nodemon server.js",
@@ -10,7 +10,7 @@
     "test": "jest --coverage",
     "test:watch": "jest --watch"
   },
-  "author": "",
+  "author": "Nitesh Baban Ghuge",
   "license": "ISC",
   "dependencies": {
     "body-parser": "1.7.0",
@@ -20,9 +20,11 @@
     "moment": "^2.17.1",
     "moment-timezone": "^0.5.13",
     "mongoose": "^5.8.9",
+    "morgan": "^1.9.1",
     "node-uuid": "^1.4.8",
     "swagger-ui-express": "^2.0.13",
-    "sync-request": "^4.0.2"
+    "sync-request": "^4.0.2",
+    "nodemon": "^2.0.2"
   },
   "devDependencies": {
     "babel-core": "^6.22.1",
@@ -41,7 +43,6 @@
     "eslint-plugin-jest": "^21.27.2",
     "eslint-plugin-prettier": "^2.7.0",
     "jest": "^24.9.0",
-    "nodemon": "^2.0.2",
     "prettier": "^1.15.2",
     "webpack": "^4.41.5"
   },
