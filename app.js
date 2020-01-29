@@ -46,7 +46,6 @@ app.use((error, req, res, next) => {
 // connecting to mongoDB
 mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }, () => {
   console.log("DB connected");
-  console.log(process.env.DB_CONNECT);
 });
 
 module.exports = app;
