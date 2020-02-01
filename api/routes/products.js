@@ -67,28 +67,26 @@ router.get("/:productId", (req, res) => {
 
 router.patch("/:productId", (req, res) => {
   const id = req.params.productId;
-  Product.update({ _id: id }, { $set: req.body })
+  Product.updateOne({ _id: id }, { $set: req.body })
     .exec()
     .then(result => {
       console.log(result);
-      res
-        .status(200)
-        .json({
-          data: result,
-          message: "Product updated successfully"
-        })
-        .catch(err => {
-          console.log(err);
-          res.status(500).json({
-            error: err
-          });
-        });
+      res.status(200).json({
+        data: result,
+        message: "Product updated successfully"
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
     });
 });
 
 router.delete("/:productId", (req, res) => {
   const id = req.params.productId;
-  Product.remove({ _id: id })
+  Product.deleteOne({ _id: id })
     .exec()
     .then(result => {
       console.log(result);
