@@ -6,10 +6,14 @@ const router = express.Router();
 
 router.get("/", (req, res) => {
   Product.find()
+    .select("_id name description price")
     .exec()
     .then(docs => {
       console.log(docs);
-      res.status(200).json(docs);
+      res.status(200).json({
+        count: docs.length,
+        data: docs
+      });
     })
     .catch(err => {
       console.log(err);
@@ -31,8 +35,13 @@ router.post("/", (req, res) => {
     .then(result => {
       console.log(result);
       res.status(200).json({
-        data: result,
-        message: "Successfully created a new product"
+        data: {
+          _id: result._id,
+          name: result.name,
+          description: result.description,
+          price: result.price
+        },
+        message: "Product created successfully"
       });
     })
     .catch(err => {
@@ -46,6 +55,7 @@ router.post("/", (req, res) => {
 router.get("/:productId", (req, res) => {
   const id = req.params.productId;
   Product.findById(id)
+    .select("_id name description price")
     .exec()
     .then(doc => {
       console.log(doc);
@@ -72,7 +82,7 @@ router.patch("/:productId", (req, res) => {
     .then(result => {
       console.log(result);
       res.status(200).json({
-        data: result,
+        result,
         message: "Product updated successfully"
       });
     })
@@ -92,7 +102,7 @@ router.delete("/:productId", (req, res) => {
       console.log(result);
       res.status(200).json({
         result,
-        message: "Successfully deleted the product"
+        message: "Product deleted successfully"
       });
     })
     .catch(err => {

@@ -10,6 +10,7 @@ rules:
     "prefer-destructuring": ["error", {"object": true, "array": false}]
     "no-restricted-syntax": ["error", "WithStatement"]
     "no-await-in-loop": ["off"]
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }]
     "complexity": ["error", 7]
     "max-lines": ["error"]
     "max-lines-per-function": ["error"]
