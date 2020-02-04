@@ -21,8 +21,10 @@ app.use((req, res, next) => {
 
 // Routes
 const productRoutes = require("./api/routes/products");
+const orderRoutes = require("./api/routes/orders");
 
 app.use("/products", productRoutes);
+app.use("/orders", orderRoutes);
 
 // handling 404 error
 app.use((req, res, next) => {
