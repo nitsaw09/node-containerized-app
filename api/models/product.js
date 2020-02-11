@@ -7,7 +7,7 @@ const productSchema = mongoose.Schema(
       type: String,
       required: [true, "Name is required"],
       trim: true,
-      unique: true
+      index: { unique: true }
     },
     description: {
       type: String,
@@ -18,9 +18,20 @@ const productSchema = mongoose.Schema(
       type: Number,
       required: [true, "Price is required"],
       trim: true
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now()
+    },
+    updatedAt: {
+      type: Date,
+      default: null
     }
   },
-  { versionKey: false }
+  {
+    versionKey: false,
+    strict: true
+  }
 );
 
 module.exports = mongoose.model("Product", productSchema);

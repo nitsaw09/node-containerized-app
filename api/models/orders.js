@@ -5,9 +5,7 @@ const productSchema = mongoose.Schema(
     productId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Product",
-      required: [true, "Product id is required"],
-      index: true,
-      unique: true
+      required: [true, "Product id is required"]
     },
     quantity: {
       type: Number,
@@ -33,13 +31,12 @@ const orderSchema = mongoose.Schema(
     updatedAt: {
       type: Date,
       default: null
-    },
-    deletedAt: {
-      type: Date,
-      default: null
     }
   },
-  { versionKey: false }
+  {
+    versionKey: false,
+    strict: true
+  }
 );
 
 module.exports = mongoose.model("Order", orderSchema);

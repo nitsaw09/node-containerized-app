@@ -46,7 +46,7 @@ app.use((error, req, res, next) => {
 });
 
 // connecting to mongoDB
-mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }, () => {
+mongoose.connect(process.env.DB_CONNECT, { useCreateIndex: true, useNewUrlParser: true }, () => {
   console.log("DB connected");
 });
 
