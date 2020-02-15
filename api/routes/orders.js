@@ -3,8 +3,26 @@ import _ from "lodash";
 const express = require("express");
 const mongoose = require("mongoose");
 const Order = require("../models/orders");
+const Product = require("../models/product");
 
 const router = express.Router();
+
+const productCheck = products => {
+  const productIds = [];
+  _.forEach(products, el => {
+    productIds.push(el.productId);
+  });
+
+  return Product.find({ _id: { $in: productIds } })
+    .exec()
+    .then(docs => {
+      if (productIds.length !== docs.length) {
+        const err = { message: "Product not found" };
+        return Promise.reject(err);
+      }
+      return true;
+    });
+};
 
 router.get("/", (req, res) => {
   Order.find()
@@ -25,22 +43,23 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const order = new Order({
-    _id: new mongoose.Types.ObjectId(),
-    products: req.body.products,
-    status: req.body.status
-  });
-  order
-    .save()
-    .then(result => {
-      console.log(result);
-      res.status(200).json({
-        result,
-        message: "Order created successfully"
+  const { products, status } = req.body;
+  productCheck(products)
+    .then(() => {
+      const order = new Order({
+        _id: new mongoose.Types.ObjectId(),
+        products,
+        status
+      });
+      return order.save().then(result => {
+        console.log(result);
+        res.status(200).json({
+          result,
+          message: "Order created successfully"
+        });
       });
     })
     .catch(err => {
-      console.log(err);
       res.status(500).json({
         error: err
       });
@@ -91,16 +110,15 @@ router.delete("/:orderId", (req, res) => {
 router.post("/:orderId/add-product", async (req, res) => {
   const { orderId } = req.params;
   const order = await Order.findOne({ _id: orderId });
-
-  order.products.push(req.body);
-
-  order
-    .save()
-    .then(result => {
-      console.log(result);
-      res.status(200).json({
-        result,
-        message: "product added to order successfully"
+  productCheck(req.body)
+    .then(() => {
+      order.products.push(req.body);
+      return order.save().then(result => {
+        console.log(result);
+        res.status(200).json({
+          result,
+          message: "product added to order successfully"
+        });
       });
     })
     .catch(err => {
