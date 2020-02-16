@@ -1,4 +1,4 @@
-# Foobar
+# MEAN Order APP
 
 A basic Mean Stack application.\
 Modules 
