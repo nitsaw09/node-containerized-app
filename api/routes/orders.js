@@ -10,7 +10,7 @@ const router = express.Router();
 const productCheck = products => {
   const productIds = [];
   _.forEach(products, el => {
-    productIds.push(el.productId);
+    productIds.push(el.product);
   });
 
   return Product.find({ _id: { $in: productIds } })
@@ -26,6 +26,8 @@ const productCheck = products => {
 
 router.get("/", (req, res) => {
   Order.find()
+    .populate({ path: "products.product", select: "_id name description price" })
+    .sort({ createdAt: "desc" })
     .exec()
     .then(docs => {
       console.log(docs);
@@ -158,7 +160,7 @@ router.delete("/:orderId/product/:productId", async (req, res) => {
   const { orderId, productId } = req.params;
   const order = await Order.findOne({ _id: orderId });
 
-  order.products = _.remove(order.products, e => e.productId.toString() !== productId);
+  order.products = _.remove(order.products, e => e.product.toString() !== productId);
   order.updatedAt = Date.now();
 
   order

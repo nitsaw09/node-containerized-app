@@ -7,6 +7,7 @@ const router = express.Router();
 router.get("/", (req, res) => {
   Product.find()
     .select("_id name description price")
+    .sort({ createdAt: "desc" })
     .exec()
     .then(docs => {
       console.log(docs);
