@@ -1,12 +1,19 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const uploadFile = require("../functions/upload");
 const Product = require("../models/product");
+
+const upload = uploadFile({
+  destination: "./uploads/products/",
+  fileSize: 1024 * 1024 * 2, // upload file size limit to 2 MB
+  allowedFiles: ["image/png", "image/jpeg"] // allowed upload file types
+});
 
 const router = express.Router();
 
 router.get("/", (req, res) => {
   Product.find()
-    .select("_id name description price")
+    .select("_id name description price productImage")
     .sort({ createdAt: "desc" })
     .exec()
     .then(docs => {
@@ -24,12 +31,13 @@ router.get("/", (req, res) => {
     });
 });
 
-router.post("/", (req, res) => {
+router.post("/", upload.single("productImage"), (req, res) => {
   const product = new Product({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
     description: req.body.description,
-    price: req.body.price
+    price: req.body.price,
+    productImage: req.file.path
   });
   product
     .save()
@@ -40,7 +48,8 @@ router.post("/", (req, res) => {
           _id: result._id,
           name: result.name,
           description: result.description,
-          price: result.price
+          price: result.price,
+          productImage: result.productImage
         },
         message: "Product created successfully"
       });

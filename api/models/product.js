@@ -19,6 +19,11 @@ const productSchema = mongoose.Schema(
       required: [true, "Price is required"],
       trim: true
     },
+    productImage: {
+      type: String,
+      require: [true, "Product image is required"],
+      trim: true
+    },
     createdAt: {
       type: Date,
       default: Date.now()
