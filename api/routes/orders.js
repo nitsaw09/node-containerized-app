@@ -2,7 +2,7 @@ import _ from "lodash";
 
 const express = require("express");
 const mongoose = require("mongoose");
-const Order = require("../models/orders");
+const Order = require("../models/order");
 const Product = require("../models/product");
 
 const router = express.Router();

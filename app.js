@@ -22,9 +22,11 @@ app.use((req, res, next) => {
 });
 
 // Routes
+const userRoutes = require("./api/routes/users");
 const productRoutes = require("./api/routes/products");
 const orderRoutes = require("./api/routes/orders");
 
+app.use("/users", userRoutes);
 app.use("/products", productRoutes);
 app.use("/orders", orderRoutes);
 
