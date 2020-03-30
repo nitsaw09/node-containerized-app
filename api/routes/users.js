@@ -7,7 +7,9 @@ const mail = require("../functions/mail");
 
 const router = express.Router();
 
-const userToken = (userId, token, mailOptions) => {
+const token = Math.floor(100000 + Math.random() * 900000);
+
+const userToken = (userId, mailOptions) => {
   const newToken = new Token({
     _id: new mongoose.Types.ObjectId(),
     token,
@@ -42,7 +44,6 @@ router.post("/signup", (req, res) => {
         newUser
           .save()
           .then(result => {
-            const token = Math.floor(100000 + Math.random() * 900000);
             const mailOptions = {
               from: "niteshghuge619@gmail.com",
               to: result.email,
@@ -53,8 +54,10 @@ router.post("/signup", (req, res) => {
                 verifyUrl: `${req.protocol}://${req.headers.host}/users/verify?token=${token}&email=${result.email}&status=1`
               }
             };
-            userToken(result._id, token, mailOptions);
-            res.status(200).json({ message: "Signup successfully" });
+            userToken(result._id, mailOptions);
+            res.status(200).json({
+              message: "Signup successfully"
+            });
           })
           .catch(error => {
             res.status(500).json({
@@ -62,6 +65,29 @@ router.post("/signup", (req, res) => {
             });
           });
       });
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: err
+      });
+    });
+});
+
+router.post("/reverify", (req, res) => {
+  const { userId } = req.body;
+  User.findById(userId)
+    .then(user => {
+      const mailOptions = {
+        from: "niteshghuge619@gmail.com",
+        to: user.email,
+        subject: "Welcome user",
+        template: "verify_user",
+        context: {
+          name: user.name,
+          verifyUrl: `${req.protocol}://${req.headers.host}/users/verify?token=${token}&email=${user.email}&verify=true`
+        }
+      };
+      userToken(userId, mailOptions);
     })
     .catch(err => {
       res.status(500).json({
