@@ -8,20 +8,21 @@ const transporter = nodemailer.createTransport({
   secure: false,
   requireTLS: true,
   auth: {
-    user: process.env.EMAIL,
-    pass: process.env.PASSWORD
+    user: process.env.MAIL_EMAIL,
+    pass: process.env.MAIL_PASSWORD
   }
 });
 
 const mail = mailOption => {
+  const templateDir = path.resolve(__dirname, "../templates/email");
   const options = {
     viewEngine: {
       extname: ".hbs",
-      layoutsDir: path.resolve(__dirname, "../templates/email"),
+      layoutsDir: templateDir,
       defaultLayout: mailOption.template,
-      partialsDir: path.resolve(__dirname, "../templates/email")
+      partialsDir: templateDir
     },
-    viewPath: path.resolve(__dirname, "../templates/email"),
+    viewPath: templateDir,
     extName: ".hbs"
   };
 

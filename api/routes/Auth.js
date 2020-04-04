@@ -1,18 +1,19 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const Token = require("../models/token");
 const mail = require("../functions/mail");
 
 const router = express.Router();
 
-const token = Math.floor(100000 + Math.random() * 900000);
+const verifyToken = Math.floor(100000 + Math.random() * 900000);
 
 const userToken = (userId, mailOptions) => {
   const newToken = new Token({
     _id: new mongoose.Types.ObjectId(),
-    token,
+    verifyToken,
     user: userId
   });
 
@@ -51,7 +52,7 @@ router.post("/signup", (req, res) => {
               template: "verify_user",
               context: {
                 name: result.name,
-                verifyUrl: `${req.protocol}://${req.headers.host}/users/verify?token=${token}&email=${result.email}&status=1`
+                verifyUrl: `${req.protocol}://${req.headers.host}/users/verify?token=${verifyToken}&email=${result.email}&status=1`
               }
             };
             userToken(result._id, mailOptions);
@@ -73,21 +74,36 @@ router.post("/signup", (req, res) => {
     });
 });
 
-router.post("/reverify", (req, res) => {
-  const { userId } = req.body;
-  User.findById(userId)
+router.post("/login", (req, res) => {
+  User.findOne({ email: req.body.email })
+    .exec()
     .then(user => {
-      const mailOptions = {
-        from: "niteshghuge619@gmail.com",
-        to: user.email,
-        subject: "Welcome user",
-        template: "verify_user",
-        context: {
-          name: user.name,
-          verifyUrl: `${req.protocol}://${req.headers.host}/users/verify?token=${token}&email=${user.email}&verify=true`
+      if (!user.email) {
+        return res.status(401).json({ message: "Email or Password is in correct" });
+      }
+
+      bcrypt.compare(req.body.password, user.password, (err, result) => {
+        if (err) {
+          return res.status(401).json({ message: "Email or Password is in correct" });
         }
-      };
-      userToken(userId, mailOptions);
+
+        if (result) {
+          const token = jwt.sign(
+            {
+              userId: user._id,
+              name: user.name,
+              email: user.email
+            },
+            process.env.JWT_KEY,
+            {
+              expiresIn: "1d"
+            }
+          );
+          return res.status(200).json({ message: "Login successful", token });
+        }
+
+        return res.status(401).json({ message: "Email or Password is in correct" });
+      });
     })
     .catch(err => {
       res.status(500).json({
@@ -115,6 +131,29 @@ router.get("/verify", (req, res) => {
           res.status(200).json({ message: "Thank you for verifying your email!!!" });
         });
       });
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: err
+      });
+    });
+});
+
+router.post("/reverify", (req, res) => {
+  const { userId } = req.body;
+  User.findById(userId)
+    .then(user => {
+      const mailOptions = {
+        from: "niteshghuge619@gmail.com",
+        to: user.email,
+        subject: "Welcome user",
+        template: "verify_user",
+        context: {
+          name: user.name,
+          verifyUrl: `${req.protocol}://${req.headers.host}/users/verify?token=${verifyToken}&email=${user.email}&verify=true`
+        }
+      };
+      userToken(userId, mailOptions);
     })
     .catch(err => {
       res.status(500).json({
