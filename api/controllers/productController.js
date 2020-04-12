@@ -21,7 +21,7 @@ exports.getAllProducts = (req, res) => {
     });
 };
 
-exports.addProduct = (req, res) => {
+exports.createProduct = (req, res) => {
   const product = new Product({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,

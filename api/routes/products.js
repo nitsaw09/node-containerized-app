@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.get("/", productController.getAllProducts);
 
-router.post("/", checkAuth, upload.single("productImage"), productController.addProduct);
+router.post("/", checkAuth, upload.single("productImage"), productController.createProduct);
 
 router.get("/:productId", productController.getProductDetails);
 
