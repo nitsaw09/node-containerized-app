@@ -20,7 +20,7 @@ const userToken = (userId, mailOptions) => {
   return newToken
     .save()
     .then(() => mail(mailOptions))
-    .catch(err => Promise.reject(err));
+    .catch(err => err);
 };
 
 router.post("/signup", (req, res) => {
@@ -49,7 +49,7 @@ router.post("/signup", (req, res) => {
               from: "niteshghuge619@gmail.com",
               to: result.email,
               subject: "Welcome user",
-              template: "verify_user",
+              template: "verify-user",
               context: {
                 name: result.name,
                 verifyUrl: `${req.protocol}://${req.headers.host}/users/verify?token=${verifyToken}&email=${result.email}&status=1`
@@ -147,7 +147,7 @@ router.post("/reverify", (req, res) => {
         from: "niteshghuge619@gmail.com",
         to: user.email,
         subject: "Welcome user",
-        template: "verify_user",
+        template: "verify-user",
         context: {
           name: user.name,
           verifyUrl: `${req.protocol}://${req.headers.host}/users/verify?token=${verifyToken}&email=${user.email}&verify=true`
