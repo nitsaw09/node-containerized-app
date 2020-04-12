@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 const express = require("express");
 const orderController = require("../controllers/orderController");
 const checkAuth = require("../middleware/check-auth");
