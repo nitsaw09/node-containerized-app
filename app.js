@@ -50,8 +50,12 @@ app.use((error, req, res, next) => {
 });
 
 // connecting to mongoDB
-mongoose.connect(process.env.DB_CONNECT, { useCreateIndex: true, useNewUrlParser: true }, () => {
-  console.log("DB connected");
-});
+mongoose.connect(
+  process.env.DB_CONNECT,
+  { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true },
+  () => {
+    console.log("DB connected");
+  }
+);
 
 module.exports = app;

@@ -93,10 +93,15 @@ exports.deleteOrder = (req, res) => {
     .exec()
     .then(result => {
       console.log(result);
-      res.status(200).json({
-        result,
-        message: "Order deleted successfully"
-      });
+      if (result.deletedCount !== 0) {
+        res.status(200).json({
+          message: "Order deleted successfully"
+        });
+      } else {
+        res.status(200).json({
+          message: "Invalid order"
+        });
+      }
     })
     .catch(err => {
       console.log(err);
@@ -141,7 +146,7 @@ exports.updateOrder = async (req, res) => {
       console.log(result);
       res.status(200).json({
         result,
-        message: "product added to order successfully",
+        message: "order updated successfully",
         product_count: result.products.length
       });
     })

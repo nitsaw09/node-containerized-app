@@ -4,4 +4,5 @@ Dockerfile
 .github
 .gitignore
 node_modules
+development.env
 README.md

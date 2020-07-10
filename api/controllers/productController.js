@@ -81,10 +81,15 @@ exports.updateProduct = (req, res) => {
     .exec()
     .then(result => {
       console.log(result);
-      res.status(200).json({
-        result,
-        message: "Product updated successfully"
-      });
+      if (result.nModified !== 0) {
+        res.status(200).json({
+          message: "Product updated successfully"
+        });
+      } else {
+        res.status(200).json({
+          message: "Invalid product"
+        });
+      }
     })
     .catch(err => {
       console.log(err);
@@ -100,10 +105,15 @@ exports.deleteProduct = (req, res) => {
     .exec()
     .then(result => {
       console.log(result);
-      res.status(200).json({
-        result,
-        message: "Product deleted successfully"
-      });
+      if (result.deletedCount !== 0) {
+        res.status(200).json({
+          message: "Product deleted successfully"
+        });
+      } else {
+        res.status(200).json({
+          message: "Invalid product"
+        });
+      }
     })
     .catch(err => {
       console.log(err);
