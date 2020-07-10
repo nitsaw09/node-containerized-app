@@ -1,8 +1,9 @@
+node_modules
+uploads
 docker-compose.yaml
 Dockerfile
 .dockerignore
 .github
 .gitignore
-node_modules
 development.env
 README.md
