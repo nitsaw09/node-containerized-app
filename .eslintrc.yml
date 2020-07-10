@@ -28,9 +28,9 @@ overrides:
       "jest/no-identical-title": "error"
       "jest/prefer-to-have-length": "warn"
       "jest/valid-expect": "error"
-      "no-underscore-dangle": "off"
+      "no-underscore-dangle": ["error", { "allow": ["_id"] }]
       "max-lines-per-function": ["off"]
-      "max-lines": ["off"] # temporary until we fix the tests...
+      "max-lines": ["off"]
   - files: [ "*.js" ]
     rules: 
       "no-console": "off"
