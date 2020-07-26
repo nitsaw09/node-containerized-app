@@ -37,7 +37,7 @@ app.use((req, res, next) => {
   next(error);
 });
 
-// handling 404 & 500 error
+// handling 404 & 500 error response
 app.use((error, req, res, next) => {
   const resStatus = error.status || 500;
   res.status(resStatus).json({
