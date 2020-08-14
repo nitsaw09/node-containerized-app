@@ -141,7 +141,7 @@ exports.reverify = (req, res) => {
   User.findById(userId)
     .then(user => {
       const mailOptions = {
-        from: "niteshghuge619@gmail.com",
+        from: process.env.MAIL_EMAIL,
         to: user.email,
         subject: "Welcome user",
         template: "verify-user",
