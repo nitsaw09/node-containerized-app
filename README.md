@@ -16,11 +16,13 @@ Modules
 
 3. Set an environment variable ```DB_CONNECT``` on your machine and assign the mongo database connectivity.
 
-4. Set environment variables ```MAIL_EMAIL``` and ```MAIL_PASSWORD``` for mail setup.
+4. Set environment variables ```SMTP_HOST``` and ```SMTP_PORT``` for smtp mail setup.
 
-5. Set environment variable ```JWT_KEY``` for auth setup
+5. Set environment variables ```MAIL_EMAIL``` and ```MAIL_PASSWORD``` for mail setup.
 
-4. Setup the ```PORT``` environment variable (optional).
+6. Set environment variable ```JWT_KEY``` for auth setup
+
+7. Setup the ```PORT``` environment variable (optional).
 
 
 ## esLint
