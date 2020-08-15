@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const Token = require("../models/token");
-const mail = require("../functions/mail");
+const mail = require("../utils/mail");
 
 const verifyToken = Math.floor(100000 + Math.random() * 900000);
 

@@ -1,5 +1,5 @@
 const express = require("express");
-const uploadFile = require("../functions/upload");
+const uploadFile = require("../utils/upload");
 const productController = require("../controllers/productController");
 const checkAuth = require("../middleware/check-auth");
 

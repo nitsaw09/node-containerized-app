@@ -1,24 +1,51 @@
 const mongoose = require("mongoose");
 const Product = require("../models/product");
+const pagination = require("../utils/pagination");
+const sortData = require("../utils/sortData");
+const filterData = require("../utils/filterData");
 
-exports.getAllProducts = (req, res) => {
-  Product.find()
-    .select("_id name description price productImage")
-    .sort({ createdAt: "desc" })
-    .exec()
-    .then(docs => {
-      console.log(docs);
-      res.status(200).json({
-        count: docs.length,
-        data: docs
+exports.getAllProducts = async (req, res) => {
+  const filter = await filterData(req.query);
+  const totalRecords = await Product.find(filter).countDocuments(); // total product records
+  console.log(totalRecords);
+  if (totalRecords > 0) {
+    const sortColumn = await sortData(req.query);
+    const paginate = await pagination(req.query, totalRecords);
+
+    Product.find(filter)
+      .select("_id name description price productImage")
+      .sort(sortColumn)
+      .skip(paginate.offset)
+      .limit(paginate.limit)
+      .exec()
+      .then(docs => {
+        console.log(docs);
+        if (docs.length > 0) {
+          res.status(200).json({
+            from: paginate.from,
+            to: paginate.to,
+            currentPage: paginate.currentPage,
+            totalPages: paginate.totalPages,
+            totalRecords,
+            data: docs
+          });
+        } else {
+          res.status(404).json({
+            error: "No Data Found"
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error: err
+        });
       });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: err
-      });
+  } else {
+    res.status(404).json({
+      error: "No Data Found"
     });
+  }
 };
 
 exports.createProduct = (req, res) => {

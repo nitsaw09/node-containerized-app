@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { validateEmail } = require("../functions/validate");
+const { validateEmail } = require("../utils/validate");
 
 const userSchema = mongoose.Schema(
   {
