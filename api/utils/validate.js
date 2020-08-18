@@ -1,6 +1,8 @@
-const validateEmail = email => {
+const email = data => {
   const emailRegx = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-  return emailRegx.test(email);
+  return emailRegx.test(data);
 };
 
-module.exports = { validateEmail };
+const validate = { email };
+
+module.exports = validate;
