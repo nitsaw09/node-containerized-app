@@ -1,4 +1,4 @@
-const pagination = async (params, totalRecords) => {
+const pagination = (params, totalRecords) => {
   const data = {};
   data.currentPage = Number(params.page) || 1; // current page number
   data.limit = Number(params.records) || 50; // record per page
