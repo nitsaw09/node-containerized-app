@@ -53,3 +53,39 @@ jobs:
           build-args: |
             arg1=value1
             arg2=value2
+
+  deploy:
+
+    runs-on: ubuntu-latest
+    needs: ci
+
+    steps:
+      - 
+        uses: actions/checkout@v2
+      - 
+        uses: akhileshns/heroku-deploy@v3.6.8
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          usedocker: true
+          docker_build_args: |
+            NODE_ENV
+            DB_CONNECT
+            JWT_KEY
+            MAIL_EMAIL
+            MAIL_PASSWORD
+            SMTP_HOST
+            SMTP_PORT
+            BABEL_DISABLE_CACHE
+        env:
+          NODE_ENV: production
+          DB_CONNECT: ${{ secrets.DB_CONNECT }}
+          JWT_KEY: ${{ secrets.JWT_KEY }}
+          MAIL_EMAIL: ${{ secrets.MAIL_EMAIL }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          BABEL_DISABLE_CACHE: 1
+          
+          
