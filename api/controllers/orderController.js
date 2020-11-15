@@ -27,40 +27,43 @@ const productCheck = products => {
 exports.getAllOrders = async (req, res) => {
   const filter = await filterData(req.query);
   const totalRecords = await Order.find(filter).countDocuments(); // total order records
-  if (totalRecords > 0) {
-    const sortColumn = await sortData(req.query);
-    const paginate = await pagination(req.query, totalRecords);
-
-    Order.find(filter)
-      .populate({ path: "products.product", select: "_id name description price" })
-      .sort(sortColumn)
-      .offset(paginate.offset)
-      .limit(paginate.limit)
-      .exec()
-      .then(docs => {
-        console.log(docs);
-        if (docs.length > 0) {
-          res.status(200).json({
-            from: paginate.from,
-            to: paginate.to,
-            currentPage: paginate.currentPage,
-            totalPages: paginate.totalPages,
-            totalRecords,
-            data: docs
-          });
-        } else {
-          res.status(404).json({
-            error: "No Data Found"
-          });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({
-          error: err
-        });
-      });
+  if (totalRecords === 0) {
+    return res.status(404).json({
+      error: "No Data Found"
+    });
   }
+  const sortColumn = await sortData(req.query);
+  const paginate = await pagination(req.query, totalRecords);
+
+  Order.find(filter)
+    .populate({ path: "products.product", select: "_id name description price" })
+    .sort(sortColumn)
+    .offset(paginate.offset)
+    .limit(paginate.limit)
+    .exec()
+    .then(docs => {
+      console.log(docs);
+      if (docs.length > 0) {
+        res.status(200).json({
+          from: paginate.from,
+          to: paginate.to,
+          currentPage: paginate.currentPage,
+          totalPages: paginate.totalPages,
+          totalRecords,
+          data: docs
+        });
+      } else {
+        res.status(404).json({
+          error: "No Data Found"
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
 };
 
 exports.createOrder = (req, res) => {

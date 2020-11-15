@@ -7,45 +7,43 @@ const filterData = require("../utils/filterData");
 exports.getAllProducts = async (req, res) => {
   const filter = await filterData(req.query);
   const totalRecords = await Product.find(filter).countDocuments(); // total product records
-  console.log(totalRecords);
-  if (totalRecords > 0) {
-    const sortColumn = await sortData(req.query);
-    const paginate = await pagination(req.query, totalRecords);
-
-    Product.find(filter)
-      .select("_id name description price productImage")
-      .sort(sortColumn)
-      .skip(paginate.offset)
-      .limit(paginate.limit)
-      .exec()
-      .then(docs => {
-        console.log(docs);
-        if (docs.length > 0) {
-          res.status(200).json({
-            from: paginate.from,
-            to: paginate.to,
-            currentPage: paginate.currentPage,
-            totalPages: paginate.totalPages,
-            totalRecords,
-            data: docs
-          });
-        } else {
-          res.status(404).json({
-            error: "No Data Found"
-          });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({
-          error: err
-        });
-      });
-  } else {
-    res.status(404).json({
+  if (totalRecords === 0) {
+    return res.status(404).json({
       error: "No Data Found"
     });
   }
+  const sortColumn = await sortData(req.query);
+  const paginate = await pagination(req.query, totalRecords);
+
+  Product.find(filter)
+    .select("_id name description price productImage")
+    .sort(sortColumn)
+    .skip(paginate.offset)
+    .limit(paginate.limit)
+    .exec()
+    .then(docs => {
+      console.log(docs);
+      if (docs.length > 0) {
+        res.status(200).json({
+          from: paginate.from,
+          to: paginate.to,
+          currentPage: paginate.currentPage,
+          totalPages: paginate.totalPages,
+          totalRecords,
+          data: docs
+        });
+      } else {
+        res.status(404).json({
+          error: "No Data Found"
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
 };
 
 exports.createProduct = (req, res) => {
