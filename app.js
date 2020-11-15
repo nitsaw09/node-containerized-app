@@ -34,6 +34,14 @@ app.use("/orders", orderRoutes);
 app.use((req, res, next) => {
   const error = new Error("Not Found");
   error.status = 404;
+  let ipAddr = req.headers["x-forwarded-for"];
+  if (ipAddr) {
+    const list = ipAddr.split(",");
+    ipAddr = list[list.length - 1];
+  } else {
+    ipAddr = req.connection.remoteAddress;
+  }
+  console.log(ipAddr);
   next(error);
 });
 
