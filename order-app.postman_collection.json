@@ -29,8 +29,29 @@
 							}
 						],
 						"body": {
-							"mode": "raw",
-							"raw": "{\n\"name\": \"test\",\n\"description\": \"test descrition\",\n\"price\": 200\n}",
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Product1",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "test product",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "100",
+									"type": "text"
+								},
+								{
+									"key": "productImage",
+									"type": "file",
+									"src": "/home/encapto/Pictures/Wallpapers/a68e4bd0885a7d1de90a2c265ebc8131.jpg"
+								}
+							],
 							"options": {
 								"raw": {
 									"language": "json"
@@ -38,13 +59,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/products",
+							"raw": "localhost:3000/product/create",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"products"
+								"product",
+								"create"
 							]
 						}
 					},
@@ -63,13 +85,13 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:3000/products/{{productId}}",
+							"raw": "localhost:3000/product/{{productId}}",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"products",
+								"product",
 								"{{productId}}"
 							]
 						}
@@ -103,14 +125,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/products/{{productId}}",
+							"raw": "http://localhost:3000/product/{{productId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"products",
+								"product",
 								"{{productId}}"
 							]
 						}
@@ -123,14 +145,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/products",
+							"raw": "http://localhost:3000/product/list",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"products"
+								"product",
+								"list"
 							]
 						}
 					},
@@ -153,14 +176,14 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:3000/products/{{productId}}",
+							"raw": "http://localhost:3000/product/{{productId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"products",
+								"product",
 								"{{productId}}"
 							]
 						}
@@ -192,7 +215,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"products\": [\n\t{\n\t\t\"quantity\": 2,\n\t\t\"productId\": \"5e2ee98c152c1f22b132c6a7\" \n\t},\n\t{\n\t\t\"quantity\": 2,\n\t\t\"productId\": \"5e36837c7c308d1771eca821\" \n\t}\n  ],\n  \"status\": \"pending\"\n}\n\n",
+							"raw": "{\n  \"products\": [\n\t{\n\t\t\"quantity\": 2,\n\t\t\"product\": \"5e89eefa23aca90b53b66570\" \n\t}\n  ],\n  \"status\": \"pending\"\n}\n\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -200,14 +223,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/orders",
+							"raw": "http://localhost:3000/order/create",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"orders"
+								"order",
+								"create"
 							]
 						}
 					},
@@ -230,14 +254,15 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:3000/orders",
+							"raw": "http://localhost:3000/order/list",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"orders"
+								"order",
+								"list"
 							],
 							"query": [
 								{
@@ -277,14 +302,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/orders/{{orderId}}",
+							"raw": "http://localhost:3000/order/{{orderId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"orders",
+								"order",
 								"{{orderId}}"
 							]
 						}
@@ -308,14 +333,14 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:3000/orders/{{orderId}}/product/{{productId}}",
+							"raw": "http://localhost:3000/order/{{orderId}}/product/{{productId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"orders",
+								"order",
 								"{{orderId}}",
 								"product",
 								"{{productId}}"
@@ -351,14 +376,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/orders/{{orderId}}/add-product",
+							"raw": "http://localhost:3000/order/{{orderId}}/add-product",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"orders",
+								"order",
 								"{{orderId}}",
 								"add-product"
 							],
@@ -421,14 +446,14 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:3000/orders/{{orderId}}",
+							"raw": "http://localhost:3000/order/{{orderId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"orders",
+								"order",
 								"{{orderId}}"
 							]
 						}
@@ -454,7 +479,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"name\": \"Nitesh Ghuge\",\n\"email\": \"niteshghuge09@gmail.com\",\n\"password\": \"123456\"\n}",
+							"raw": "{\n\"name\": \"Nitesh Ghuge\",\n\"email\": \"niteshghuge619@gmail.com\",\n\"password\": \"123456\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -462,14 +487,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/users/signup",
+							"raw": "http://localhost:3000/auth/signup",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"users",
+								"auth",
 								"signup"
 							]
 						}
@@ -489,7 +514,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"name\": \"Nitesh Ghuge\",\n\"email\": \"niteshghuge09@gmail.com\",\n\"password\": \"123456\"\n}",
+							"raw": "{\n\"email\": \"niteshghuge09@gmail.com\",\n\"password\": \"123456\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -497,15 +522,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/users/signup",
+							"raw": "http://localhost:3000/auth/login",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"users",
-								"signup"
+								"auth",
+								"login"
 							]
 						}
 					},

@@ -11,9 +11,9 @@ const upload = uploadFile({
 
 const router = express.Router();
 
-router.get("/", productController.getAllProducts);
+router.get("/list", productController.getAllProducts);
 
-router.post("/", checkAuth, upload.single("productImage"), productController.createProduct);
+router.post("/create", checkAuth, upload.single("productImage"), productController.createProduct);
 
 router.get("/:productId", productController.getProductDetails);
 

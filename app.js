@@ -27,8 +27,8 @@ const productRoutes = require("./api/routes/products");
 const orderRoutes = require("./api/routes/orders");
 
 app.use("/auth", authRoutes);
-app.use("/products", productRoutes);
-app.use("/orders", orderRoutes);
+app.use("/product", productRoutes);
+app.use("/order", orderRoutes);
 
 // handling 404 error
 app.use((req, res, next) => {
