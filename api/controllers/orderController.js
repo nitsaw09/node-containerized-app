@@ -13,15 +13,18 @@ const productCheck = products => {
     productIds.push(el.product);
   });
 
-  return Product.find({ _id: { $in: productIds } })
-    .exec()
-    .then(docs => {
-      if (productIds.length !== docs.length) {
-        const err = { message: "Product not found" };
-        return Promise.reject(err);
-      }
-      return true;
-    });
+  return new Promise((resolve, reject) => {
+    Product.find({ _id: { $in: productIds } })
+      .exec()
+      .then(docs => {
+        if (productIds.length !== docs.length) {
+          const error = { message: "Product not found" };
+          reject(error);
+        } else {
+          resolve();
+        }
+      });
+  });
 };
 
 exports.getAllOrders = async (req, res) => {
