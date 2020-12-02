@@ -2,6 +2,7 @@ version: "3"
 services:
   node-app:
     build: .
+    container_name: "order-app"
     ports:
       - "3000:3000"
     volumes:
@@ -10,3 +11,4 @@ services:
 
   mongo:
     image: "mongo"
+    container_name: "orderDB"
