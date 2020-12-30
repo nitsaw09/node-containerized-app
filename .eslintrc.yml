@@ -16,6 +16,7 @@ rules:
     "max-lines": ["error"]
     "max-lines-per-function": ["error"]
     "consistent-return": ["off"]
+    "linebreak-style": ["off"]
 overrides: 
   - files: [ "**.test.js", "__mocks__/**" ]
     plugins:
@@ -31,6 +32,7 @@ overrides:
       "no-underscore-dangle": ["error", { "allow": ["_id"] }]
       "max-lines-per-function": ["off"]
       "max-lines": ["off"]
+      "linebreak-style": ["off"]
   - files: [ "*.js" ]
     rules: 
       "no-console": "off"
