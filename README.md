@@ -1,6 +1,6 @@
-# MEAN Order APP
+# Node APP
 
-A basic Mean Stack application.\
+A basic order application.\
 Modules 
 1. User 
 2. Product
